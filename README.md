@@ -3,6 +3,7 @@
 ```
 15:07 $ vostok-transcoder-tester -h
 Usage of vostok-transcoder-tester:
+  -dictionary="./dictionary.json": location of the dictionary json file
   -file="": name of the file in '/incoming' that you want to transcode
   -idlist="": comma-separated list of dictionary identifiers to 'start'
   -url="https://reeldx-vostok-tc-stag.elasticbeanstalk.com/api/v1/transcode/start": URL for starting transcode jobs on vostok-server
