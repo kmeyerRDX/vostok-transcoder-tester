@@ -25,7 +25,8 @@ type TranscodeEntriesJSON struct {
 func main() {
 
 	// define arguments
-	urlPtr := flag.String("url", "https://reeldx-vostok-tc-stag.elasticbeanstalk.com/api/v1/transcode/start", "URL for starting transcode jobs on vostok-server")
+	commandPtr := flag.String("command", "transcode", "{ transcode | start | stop }")
+	urlPtr := flag.String("url", "https://reeldx-vostok-tc-stag.elasticbeanstalk.com/api/v1/transcode", "URL for transcode related activities jobs on vostok-server")
 	filePtr := flag.String("file", "", "name of the file in '/incoming' that you want to transcode")
 	idListPtr := flag.String("idlist", "", "comma-separated list of dictionary identifiers to 'start'")
 	verbosePtr := flag.Bool("v", false, "prints the constructed curl command")
@@ -34,6 +35,7 @@ func main() {
 	// read arguments
 	flag.Parse()
 
+	command := *commandPtr
 	url := *urlPtr
 	file := *filePtr
 	idList := strings.Split(*idListPtr, ",")
@@ -71,9 +73,22 @@ func main() {
 	curlJSON = curlJSON + "]}"
 
 	// build curl command
-	curlTemplate := "curl -k -H 'Content-type: application/json' -d '%s' -i %s" // TranscodeVideo json, then url
 
-	curlCmd := fmt.Sprintf(curlTemplate, curlJSON, url)
+	var curlCmd string
+	switch command {
+	case "transcode":
+		curlTemplate := "curl -k -H 'Content-type: application/json' -d '%s' -i %s" // TranscodeVideo json, then url
+		curlCmd = fmt.Sprintf(curlTemplate, curlJSON, url+"/"+command)
+	case "stop":
+		curlTemplate := "curl -k -H 'Content-type: application/json' -X PUT -i %s" //  url
+		curlCmd = fmt.Sprintf(curlTemplate, url+"/"+command)
+	case "start":
+		curlTemplate := "curl -k -H 'Content-type: application/json' -X PUT -i %s" //  url
+		curlCmd = fmt.Sprintf(curlTemplate, url+"/"+command)
+	default:
+		log.Println("I don't know what '" + command + "' means.  Sorry.")
+		os.Exit(1)
+	}
 
 	if *verbosePtr {
 		fmt.Println(curlCmd)
