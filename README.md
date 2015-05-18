@@ -1,12 +1,13 @@
 ## Usage
 
 ```
-15:07 $ vostok-transcoder-tester -h
-Usage of vostok-transcoder-tester:
+$ ./vostok-transcoder-tester -help
+Usage of ./vostok-transcoder-tester:
+  -command="transcode": { transcode | start | stop }
   -dictionary="./dictionary.json": location of the dictionary json file
   -file="": name of the file in '/incoming' that you want to transcode
   -idlist="": comma-separated list of dictionary identifiers to 'start'
-  -url="https://reeldx-vostok-tc-stag.elasticbeanstalk.com/api/v1/transcode/start": URL for starting transcode jobs on vostok-server
+  -url="https://reeldx-vostok-tc-stag.elasticbeanstalk.com/api/v1/transcode": URL for transcode related activities jobs on vostok-server
   -v=false: prints the constructed curl command
 
 15:07 $ vostok-transcoder-tester -file=c2.mp4 -idlist=0240,0360 -v
