@@ -1,12 +1,15 @@
 ## Usage
 
 ```
-$ ./vostok-transcoder-tester -help
+$ ./vostok-transcoder-tester -h
 Usage of ./vostok-transcoder-tester:
   -command="transcode": { transcode | start | stop }
   -dictionary="./dictionary.json": location of the dictionary json file
+  -env="stag": .env.<this> file specifying envirionment variables (AWS keys, for instance).
   -file="": name of the file in '/incoming' that you want to transcode
   -idlist="": comma-separated list of dictionary identifiers to 'start'
+  -mode="curl": {curl | sqs }
+  -queue="reeldx-vostok-tc-stag": <sqs queue>
   -url="https://reeldx-vostok-tc-stag.elasticbeanstalk.com/api/v1/transcode": URL for transcode related activities jobs on vostok-server
   -v=false: prints the constructed curl command
 
@@ -26,3 +29,7 @@ Connection: keep-alive
 
 {"transcode_videos":[{"added":"2015-05-08T22:08:45.810777047Z","file_name_encoded":"c2.mp4","transcode_entry":{"identifier":"0360","revision":"-","niceness":4,"create":"true","view":"true","key_frame_interval":"1","video_codec":"libx264","video_bit_rate":"400k","horizontal_size":"640","vertical_size":"360","audio_codec":"libfdk_aac","audio_bit_rate":"125k","audio_sample_rate":"44100","output_file_extension":".mp4"}},{"added":"2015-05-08T22:08:45.810777047Z","file_name_encoded":"c2.mp4","transcode_entry":{"identifier":"0240","revision":"-","niceness":0,"create":"true","view":"false","key_frame_interval":"1","video_codec":"flv","video_bit_rate":"250k","horizontal_size":"426","vertical_size":"240","audio_codec":"libmp3lame","audio_bit_rate":"64k","audio_sample_rate":"22050","output_file_extension":".mp4"}}]}
 ```
+
+## Mode
+
+The program can generate jobs for the transcoder using curl, or by adding to an AWS SQS queue.
